@@ -8,24 +8,28 @@
                 <div class="col-md-5">
                     <div class="card shadow border-0 p-5">
                         <h1 class="h3">Register</h1>
-                        <form action="">
+                        <form name="registerForm" id="registerForm">
                             <div class="mb-3">
-                                <label for="" class="mb-2">Name*</label>
+                                <label for="name" class="mb-2">Name*</label>
                                 <input type="text" name="name" id="name" class="form-control" placeholder="Enter Name">
+                                <p></p>
                             </div>
                             <div class="mb-3">
-                                <label for="" class="mb-2">Email*</label>
-                                <input type="text" name="email" id="email" class="form-control" placeholder="Enter Email">
+                                <label for="email" class="mb-2">Email*</label>
+                                <input type="email" name="email" id="email" class="form-control" placeholder="Enter Email">
+                                <p></p>
                             </div>
                             <div class="mb-3">
-                                <label for="" class="mb-2">Password*</label>
-                                <input type="password" name="name" id="name" class="form-control" placeholder="Enter Password">
+                                <label for="password" class="mb-2">Password*</label>
+                                <input type="password" name="password" id="password" class="form-control" placeholder="Enter Password">
+                                <p></p>
                             </div>
                             <div class="mb-3">
-                                <label for="" class="mb-2">Confirm Password*</label>
-                                <input type="password" name="name" id="name" class="form-control" placeholder="Enter Password">
+                                <label for="password_confirmation" class="mb-2">Confirm Password*</label>
+                                <input type="password" name="password_confirmation" id="password_confirmation" class="form-control" placeholder="Confirm Password">
+                                <p></p>
                             </div>
-                            <button class="btn btn-primary mt-2">Register</button>
+                            <button class="btn btn-primary mt-2" type="submit">Register</button>
                         </form>
                     </div>
                     <div class="mt-4 text-center">
@@ -35,4 +39,63 @@
             </div>
         </div>
     </section>
+@endsection
+
+@section('custom-js')
+
+    <script>
+        $('#registerForm').submit(function (e) {
+            e.preventDefault();
+
+            $.ajax({
+                url: '{{ route('account.register.process') }}',
+                type: 'post',
+                data: $("#registerForm").serialize(),
+                dataType: 'json',
+                success: function (response) {
+                    $('.form-control').removeClass('is-invalid');
+                    $('p.invalid-feedback').html('').removeClass('invalid-feedback');
+
+                    if (response.status == false) {
+                        let errors = response.errors;
+
+                        if (errors.name) {
+                            $('#name').addClass('is-invalid')
+                                .siblings('p')
+                                .addClass('invalid-feedback')
+                                .html(errors.name);
+                        }
+
+                        if (errors.email) {
+                            $('#email').addClass('is-invalid')
+                                .siblings('p')
+                                .addClass('invalid-feedback')
+                                .html(errors.email);
+                        }
+
+                        if (errors.password) {
+                            $('#password').addClass('is-invalid')
+                                .siblings('p')
+                                .addClass('invalid-feedback')
+                                .html(errors.password);
+                        }
+
+                        if (errors.password_confirmation) {
+                            $('#password_confirmation').addClass('is-invalid')
+                                .siblings('p')
+                                .addClass('invalid-feedback')
+                                .html(errors.password_confirmation);
+                        }
+                    }
+
+                    window.location.href='{{route('account.login')}}'
+                },
+                error: function (xhr) {
+                    alert('An error occurred: ' + xhr.responseText);
+                }
+            });
+        });
+
+    </script>
+
 @endsection

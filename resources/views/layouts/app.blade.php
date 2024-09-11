@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1, user-scalable=no">
     <meta name="HandheldFriendly" content="True">
     <meta name="pinterest" content="nopin">
+    <meta name="csrf-token" content="{{csrf_token()}}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css/style.css')}}">
     <!-- Fav Icon -->
@@ -35,6 +36,11 @@
 </header>
 
 <div class="container">
+    @if (session('success'))
+        <div class="alert alert-success mt-3">
+            {{ session('success') }}
+        </div>
+    @endif
     @yield('content')
 </div>
 
@@ -52,4 +58,12 @@
 <script src="{{asset('assets/js/custom.js')}}"></script>
 
 @yield('custom-js')
+
+<script>
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+</script>
 </body></html>
