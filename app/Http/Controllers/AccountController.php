@@ -87,10 +87,18 @@ class AccountController extends Controller
     }
 
     public function logout(){
+        if(!Auth::check()){
+            session()->flash('success', 'You are not logged in to your account!');
+
+            return redirect()->route('account.login');
+        }
+
         Auth::logout();
 
         session()->flash('success', 'You have been logged out successfully!');
+
         return redirect()->route('account.login');
+
     }
 
     public function profile(){
