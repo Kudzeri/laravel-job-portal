@@ -85,4 +85,15 @@ class AccountController extends Controller
             'errors' => null,
         ]);
     }
+
+    public function logout(){
+        Auth::logout();
+
+        session()->flash('success', 'You have been logged out successfully!');
+        return redirect()->route('account.login');
+    }
+
+    public function profile(){
+        return view('account.profile');
+    }
 }

@@ -15,4 +15,8 @@ Route::prefix('account')->group(function(){
 
     Route::get('/login', [AccountController::class, 'login'])->name('account.login');
     Route::post('/login-process', [AccountController::class, 'loginProcess'])->name('account.login.process');
+
+    Route::get('/logout', [AccountController::class, 'logout'])->name('account.logout');
+
+    Route::get('/profile', [AccountController::class, 'profile'])->name('account.profile');
 });
