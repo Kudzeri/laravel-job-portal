@@ -88,17 +88,11 @@
                         }
 
                     } else {
-                        window.location.href = '{{ route('home') }}';
+                        window.location.href = '{{ route('account.login') }}';
                     }
-                },
-                error: function (xhr) {
-                    console.log('An error occurred: ' + xhr.responseText);
                 }
             });
         });
-
-
-
     </script>
 
 @endsection

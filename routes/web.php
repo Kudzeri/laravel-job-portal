@@ -12,5 +12,7 @@ Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
 Route::prefix('account')->group(function(){
     Route::get('/register', [AccountController::class, 'register'])->name('account.register');
     Route::post('/register-process', [AccountController::class, 'registerProcess'])->name('account.register.process');
+
     Route::get('/login', [AccountController::class, 'login'])->name('account.login');
+    Route::post('/login-process', [AccountController::class, 'loginProcess'])->name('account.login.process');
 });
