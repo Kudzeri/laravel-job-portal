@@ -24,7 +24,7 @@
                         </form>
                     </div>
                     <div class="mt-4 text-center">
-                        <p>Do not have an account? <a href="register.html">Register</a></p>
+                        <p>Do not have an account? <a href="{{route('account.register')}}">Register</a></p>
                     </div>
                 </div>
             </div>
