@@ -44,57 +44,60 @@
 @section('custom-js')
 
     <script>
-        $('#registerForm').submit(function (e) {
+        $('#registerForm').submit(function (e){
             e.preventDefault();
 
             $.ajax({
                 url: '{{ route('account.register.process') }}',
                 type: 'post',
-                data: $("#registerForm").serialize(),
+                data: $('#registerForm').serialize(),
                 dataType: 'json',
-                success: function (response) {
+                success: function (resp) {
                     $('.form-control').removeClass('is-invalid');
                     $('p.invalid-feedback').html('').removeClass('invalid-feedback');
 
-                    if (response.status == false) {
-                        let errors = response.errors;
+                    if(resp.status === false) {
+                        let errors = resp.errors;
 
-                        if (errors.name) {
+                        if(errors.name){
                             $('#name').addClass('is-invalid')
                                 .siblings('p')
                                 .addClass('invalid-feedback')
                                 .html(errors.name);
                         }
 
-                        if (errors.email) {
+                        if(errors.email){
                             $('#email').addClass('is-invalid')
                                 .siblings('p')
                                 .addClass('invalid-feedback')
                                 .html(errors.email);
                         }
 
-                        if (errors.password) {
+                        if(errors.password){
                             $('#password').addClass('is-invalid')
                                 .siblings('p')
                                 .addClass('invalid-feedback')
                                 .html(errors.password);
                         }
 
-                        if (errors.password_confirmation) {
+                        if(errors.password_confirmation){
                             $('#password_confirmation').addClass('is-invalid')
                                 .siblings('p')
                                 .addClass('invalid-feedback')
                                 .html(errors.password_confirmation);
                         }
-                    }
 
-                    window.location.href='{{route('account.login')}}'
+                    } else {
+                        window.location.href = '{{ route('home') }}';
+                    }
                 },
                 error: function (xhr) {
-                    alert('An error occurred: ' + xhr.responseText);
+                    console.log('An error occurred: ' + xhr.responseText);
                 }
             });
         });
+
+
 
     </script>
 
