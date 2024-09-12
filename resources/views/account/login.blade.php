@@ -32,11 +32,3 @@
         </div>
     </section>
 @endsection
-
-@section('custom-js')
-
-    <script>
-
-    </script>
-
-@endsection
