@@ -21,5 +21,7 @@ Route::prefix('account')->group(function(){
     Route::get('/logout', [AccountController::class, 'logout'])->name('account.logout');
 
     Route::get('/profile', [AccountController::class, 'profile'])->name('account.profile')->middleware(RedirectIfAuthenticated::class);
+    Route::put('/profile/update-process', [AccountController::class, 'updateProfile'])->name('account.profile.update.process')->middleware(RedirectIfAuthenticated::class);
+    Route::put('/profile/update-password', [AccountController::class, 'updatePassword'])->name('account.profile.update.password')->middleware(RedirectIfAuthenticated::class);
 
 });

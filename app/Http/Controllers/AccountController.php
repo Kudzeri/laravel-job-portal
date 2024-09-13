@@ -102,6 +102,83 @@ class AccountController extends Controller
     }
 
     public function profile(){
-        return view('account.profile');
+        $user = Auth::user();
+
+        return view('account.profile', compact('user'));
     }
+
+    public function updateProfile(Request $request) {
+        if (!Auth::check()) {
+            return redirect()->route('account.login');
+        }
+
+        $user = Auth::user();
+
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255|unique:users,email,' . $user->id,
+            'mobile' => 'max:255',
+            'designation' => 'max:255',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'errors' => $validator->errors(),
+            ]);
+        }
+
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->mobile = $request->mobile;
+        $user->designation = $request->designation;
+        $user->save();
+
+        session()->flash('success', 'You have been updated successfully!');
+
+        return response()->json([
+            'status' => true,
+            'errors' => null,
+        ]);
+    }
+
+    public function updatePassword(Request $request){
+        if (!Auth::check()) {
+            return redirect()->route('account.login');
+        }
+
+        $user = Auth::user();
+
+        $validator = Validator::make($request->all(), [
+            'old_password' => 'required|max:18',
+            'password' => 'required|min:6|max:18|confirmed',
+            'password_confirmation' => 'required|min:6|max:18'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'errors' => $validator->errors(),
+            ]);
+        }
+
+        if (!Hash::check($request->old_password, $user->password)) {
+            return response()->json([
+                'status' => false,
+                'errors' => ['old_password' => 'The old password you entered is incorrect.'],
+            ]);
+        }
+
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        session()->flash('success', 'Your password has been updated successfully!');
+
+        return response()->json([
+            'status' => true,
+            'errors' => null,
+        ]);
+    }
+
+
 }
