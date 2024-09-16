@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdvertisementController;
 use App\Http\Middleware\RedirectIfAuthenticated;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
@@ -24,4 +25,8 @@ Route::prefix('account')->group(function(){
     Route::put('/profile/update-process', [AccountController::class, 'updateProfile'])->name('account.profile.update.process')->middleware(RedirectIfAuthenticated::class);
     Route::put('/profile/update-password', [AccountController::class, 'updatePassword'])->name('account.profile.update.password')->middleware(RedirectIfAuthenticated::class);
 
+});
+
+Route::prefix('advertisements')->group(function(){
+    Route::get('/', [AdvertisementController::class, 'index'])->name('advertisement.index');
 });

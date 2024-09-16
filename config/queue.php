@@ -76,7 +76,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Job Batching
+    | Advertisement Batching
     |--------------------------------------------------------------------------
     |
     | The following options configure the database and table that store job
